@@ -1,0 +1,10 @@
+<VerticalLayout >
+  <List height="400" bkcolor="#FFFFFFFF" hscrollbar="true" inset="0,0,0,0" itemalign="center" itembkcolor="#FFffffff" itemlinecolor="#ffcdcdcd" itemshowcolumnline="true" itemshowrowline="true" name="listRecv" vscrollbar="true">
+    <ListHeader height="24">
+      <ListHeaderItem hotimage="file='list_header_hot.png'" normalimage="file='list_header_bg.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1" text="name" textcolor="#ff386382"/>
+      <ListHeaderItem hotimage="file='list_header_hot.png'" normalimage="file='list_header_bg.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1" text="gender" textcolor="#ff386382"/>
+      <ListHeaderItem hotimage="file='list_header_hot.png'" normalimage="file='list_header_bg.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1" text="age" textcolor="#ff386382"/>
+      <ListHeaderItem hotimage="file='list_header_hot.png'" normalimage="file='list_header_bg.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1" text="score" textcolor="#ff386382"/>
+    </ListHeader>
+  </List>
+</VerticalLayout>

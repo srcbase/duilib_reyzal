@@ -1,0 +1,5 @@
+<VerticalLayout>
+	<HorizontalLayout padding="10,10,10,10">
+		<Button height="30" hotimage="button_h.png" name="btn_menu" normalimage="button.png" pushedimage="button_p.png" text="菜单测试2" width="120"/>
+	</HorizontalLayout>
+</VerticalLayout>

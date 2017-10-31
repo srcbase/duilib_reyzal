@@ -1,0 +1,10 @@
+ipch/
+Temp/
+*.VC.db
+*.VC.opendb
+.vs/
+Bin/*
+!Bin/Duilib_Wizard
+!Bin/DuilibResBuilder
+doc/
+*.aps
