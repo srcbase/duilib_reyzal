@@ -9,8 +9,7 @@ namespace DuiLib {
 
 class CComboWnd;
 
-class DUILIB_API CComboUI : public CContainerUI, public IListOwnerUI
-{
+class DUILIB_API CComboUI : public CContainerUI, public IListOwnerUI {
     friend class CComboWnd;
 public:
     CComboUI();
@@ -30,9 +29,9 @@ public:
     void SetDropBoxSize(SIZE szDropBox);
 
     int GetCurSel() const;
-	bool GetSelectCloseFlag();
-	void SetSelectCloseFlag(bool flag);
-    bool SelectItem(int iIndex, bool bTakeFocus = false, bool bTriggerEvent=true);
+    bool GetSelectCloseFlag();
+    void SetSelectCloseFlag(bool flag);
+    bool SelectItem(int iIndex, bool bTakeFocus = false, bool bTriggerEvent = true);
     bool ExpandItem(int iIndex, bool bExpand = true);
     int GetExpandedItem() const;
 
@@ -40,14 +39,14 @@ public:
     bool SetMultiItemIndex(CControlUI* pStartControl, int iCount, int iNewStartIndex);
     bool Add(CControlUI* pControl);
     bool AddAt(CControlUI* pControl, int iIndex);
-    bool Remove(CControlUI* pControl, bool bDoNotDestroy=false);
-    bool RemoveAt(int iIndex, bool bDoNotDestroy=false);
+    bool Remove(CControlUI* pControl, bool bDoNotDestroy = false);
+    bool RemoveAt(int iIndex, bool bDoNotDestroy = false);
     void RemoveAll();
 
     bool Activate();
 
-	bool GetShowText() const;
-	void SetShowText(bool flag);
+    bool GetShowText() const;
+    void SetShowText(bool flag);
     RECT GetTextPadding() const;
     void SetTextPadding(RECT rc);
     LPCTSTR GetNormalImage() const;
@@ -68,33 +67,33 @@ public:
     void SetItemFont(int index);
     UINT GetItemTextStyle();
     void SetItemTextStyle(UINT uStyle);
-	RECT GetItemTextPadding() const;
+    RECT GetItemTextPadding() const;
     void SetItemTextPadding(RECT rc);
-	DWORD GetItemTextColor() const;
+    DWORD GetItemTextColor() const;
     void SetItemTextColor(DWORD dwTextColor);
-	DWORD GetItemBkColor() const;
+    DWORD GetItemBkColor() const;
     void SetItemBkColor(DWORD dwBkColor);
-	LPCTSTR GetItemBkImage() const;
+    LPCTSTR GetItemBkImage() const;
     void SetItemBkImage(LPCTSTR pStrImage);
     bool IsAlternateBk() const;
     void SetAlternateBk(bool bAlternateBk);
-	DWORD GetSelectedItemTextColor() const;
+    DWORD GetSelectedItemTextColor() const;
     void SetSelectedItemTextColor(DWORD dwTextColor);
-	DWORD GetSelectedItemBkColor() const;
+    DWORD GetSelectedItemBkColor() const;
     void SetSelectedItemBkColor(DWORD dwBkColor);
-	LPCTSTR GetSelectedItemImage() const;
+    LPCTSTR GetSelectedItemImage() const;
     void SetSelectedItemImage(LPCTSTR pStrImage);
-	DWORD GetHotItemTextColor() const;
+    DWORD GetHotItemTextColor() const;
     void SetHotItemTextColor(DWORD dwTextColor);
-	DWORD GetHotItemBkColor() const;
+    DWORD GetHotItemBkColor() const;
     void SetHotItemBkColor(DWORD dwBkColor);
-	LPCTSTR GetHotItemImage() const;
+    LPCTSTR GetHotItemImage() const;
     void SetHotItemImage(LPCTSTR pStrImage);
-	DWORD GetDisabledItemTextColor() const;
+    DWORD GetDisabledItemTextColor() const;
     void SetDisabledItemTextColor(DWORD dwTextColor);
-	DWORD GetDisabledItemBkColor() const;
+    DWORD GetDisabledItemBkColor() const;
     void SetDisabledItemBkColor(DWORD dwBkColor);
-	LPCTSTR GetDisabledItemImage() const;
+    LPCTSTR GetDisabledItemImage() const;
     void SetDisabledItemImage(LPCTSTR pStrImage);
     int GetItemHLineSize() const;
     void SetItemHLineSize(int iSize);
@@ -102,20 +101,20 @@ public:
     void SetItemHLineColor(DWORD dwLineColor);
     int GetItemVLineSize() const;
     void SetItemVLineSize(int iSize);
-	DWORD GetItemVLineColor() const;
+    DWORD GetItemVLineColor() const;
     void SetItemVLineColor(DWORD dwLineColor);
     bool IsItemShowHtml();
     void SetItemShowHtml(bool bShowHtml = true);
-	void SetShowShadow(bool bShow);
-	bool IsShowShadow();
+    void SetShowShadow(bool bShow);
+    bool IsShowShadow();
 
 
     SIZE EstimateSize(SIZE szAvailable);
-	void SetPos(RECT rc, bool bNeedInvalidate = true);
-	void Move(SIZE szOffset, bool bNeedInvalidate = true);
+    void SetPos(RECT rc, bool bNeedInvalidate = true);
+    void Move(SIZE szOffset, bool bNeedInvalidate = true);
     void DoEvent(TEventUI& event);
     void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
-    
+
     bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
     void PaintText(HDC hDC);
     void PaintStatusImage(HDC hDC);
@@ -124,15 +123,15 @@ protected:
     CComboWnd* m_pWindow;
 
     int m_iCurSel;
-	bool m_bShowText;
-	bool m_bSelectCloseFlag;
-	bool m_bShowShadow;
+    bool m_bShowText;
+    bool m_bSelectCloseFlag;
+    bool m_bShowShadow;
     RECT m_rcTextPadding;
     CDuiString m_sDropBoxAttributes;
     SIZE m_szDropBox;
     UINT m_uButtonState;
 
-	TDrawInfo m_diNormal;
+    TDrawInfo m_diNormal;
     TDrawInfo m_diHot;
     TDrawInfo m_diPushed;
     TDrawInfo m_diFocused;

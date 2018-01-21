@@ -90,6 +90,7 @@
 #include "Layout/UIChildLayout.h"
 
 #include "Control/UIList.h"
+#include "Control/UIListEx.h"
 #include "Control/UICombo.h"
 #include "Control/UIScrollBar.h"
 #include "Control/UITreeView.h"

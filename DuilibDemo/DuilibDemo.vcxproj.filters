@@ -15,7 +15,7 @@
     </Filter>
     <Filter Include="DUI Resouece">
       <UniqueIdentifier>{365f234e-fd08-4dbc-8529-148ab3a84d18}</UniqueIdentifier>
-      <Extensions>xml;png;rcd;gif;jpg;ico;bmp</Extensions>
+      <Extensions>xml</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +76,12 @@
       <Filter>DUI Resouece</Filter>
     </Xml>
     <Xml Include="uires\Page3.xml">
+      <Filter>DUI Resouece</Filter>
+    </Xml>
+    <Xml Include="uires\ListviewItem.xml">
+      <Filter>DUI Resouece</Filter>
+    </Xml>
+    <Xml Include="uires\TileItem.xml">
       <Filter>DUI Resouece</Filter>
     </Xml>
   </ItemGroup>

@@ -7,8 +7,7 @@ namespace DuiLib {
 
 class CTxtWinHost;
 
-class DUILIB_API CRichEditUI : public CContainerUI, public IMessageFilterUI
-{
+class DUILIB_API CRichEditUI : public CContainerUI, public IMessageFilterUI {
 public:
     CRichEditUI();
     ~CRichEditUI();
@@ -85,7 +84,7 @@ public:
     int LineIndex(int nLine = -1) const;
     int LineLength(int nLine = -1) const;
     bool LineScroll(int nLines, int nChars = 0);
-	CDuiPoint GetCharPos(long lChar) const;
+    CDuiPoint GetCharPos(long lChar) const;
     long LineFromChar(long nIndex) const;
     CDuiPoint PosFromChar(UINT nChar) const;
     int CharFromPos(CDuiPoint pt) const;
@@ -94,14 +93,14 @@ public:
     long StreamIn(int nFormat, EDITSTREAM &es);
     long StreamOut(int nFormat, EDITSTREAM &es);
 
-	RECT GetTextPadding() const;
-	void SetTextPadding(RECT rc);
+    RECT GetTextPadding() const;
+    void SetTextPadding(RECT rc);
 
     void DoInit();
-	bool SetDropAcceptFile(bool bAccept);
-	// 注意：TxSendMessage和SendMessage是有区别的，TxSendMessage没有multibyte和unicode自动转换的功能，
-	// 而richedit2.0内部是以unicode实现的，在multibyte程序中，必须自己处理unicode到multibyte的转换
-    virtual HRESULT TxSendMessage(UINT msg, WPARAM wparam, LPARAM lparam, LRESULT *plresult) const; 
+    bool SetDropAcceptFile(bool bAccept);
+    // 注意：TxSendMessage和SendMessage是有区别的，TxSendMessage没有multibyte和unicode自动转换的功能，
+    // 而richedit2.0内部是以unicode实现的，在multibyte程序中，必须自己处理unicode到multibyte的转换
+    virtual HRESULT TxSendMessage(UINT msg, WPARAM wparam, LPARAM lparam, LRESULT *plresult) const;
     IDropTarget* GetTxDropTarget();
     virtual bool OnTxViewChanged();
     virtual void OnTxNotify(DWORD iNotify, void *pv);
@@ -121,8 +120,8 @@ public:
     void EndRight();
 
     SIZE EstimateSize(SIZE szAvailable);
-	void SetPos(RECT rc, bool bNeedInvalidate = true);
-	void Move(SIZE szOffset, bool bNeedInvalidate = true);
+    void SetPos(RECT rc, bool bNeedInvalidate = true);
+    void Move(SIZE szOffset, bool bNeedInvalidate = true);
     void DoEvent(TEventUI& event);
     bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
 
@@ -131,9 +130,9 @@ public:
     LRESULT MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
 
 protected:
-	enum { 
-		DEFAULT_TIMERID = 20,
-	};
+    enum {
+        DEFAULT_TIMERID = 20,
+    };
 
     CTxtWinHost* m_pTwh;
     bool m_bVScrollBarFixing;
@@ -148,9 +147,9 @@ protected:
     int m_iFont;
     int m_iLimitText;
     LONG m_lTwhStyle;
-	bool m_bDrawCaret;
-	bool m_bInited;
-	RECT	m_rcTextPadding;
+    bool m_bDrawCaret;
+    bool m_bInited;
+    RECT	m_rcTextPadding;
 };
 
 } // namespace DuiLib

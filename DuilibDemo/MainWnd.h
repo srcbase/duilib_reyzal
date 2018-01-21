@@ -3,7 +3,7 @@
 #define APP_NAME _T("DuilibDemo")
 
 
-class CMainWnd : public WindowImplBase
+class CMainWnd : public WindowImplBase, public IListCallbackUI
 {
 public:
 	//tab栏
@@ -11,8 +11,6 @@ public:
 	COptionUI* m_optListview;
 	COptionUI* m_optTreeview;
 	COptionUI* m_optNormal1;
-	COptionUI* m_optNormal2;
-	COptionUI* m_optNormal3;
 	//切换
 	CTabLayoutUI* m_tabMain;
 	//按钮
@@ -41,6 +39,18 @@ public:
 	CButtonUI* m_btnWindowNormal;
 	CButtonUI* m_btnWindowDomodal;
 
+	//listview
+	CButtonUI* m_btnAddListview1Data;
+	CTabLayoutUI* m_tabListview;
+	COptionUI* m_optListview1;
+	COptionUI* m_optListview2;
+	COptionUI* m_optListview3;
+	COptionUI* m_optListview4;
+	CListUI* m_listNormal;
+	CListUI* m_listFix;
+	CListExUI* m_listexNormal;
+
+	CTileLayoutUI* m_tileSoft;
 
 	DUI_DECLARE_MESSAGE_MAP()
 
@@ -54,12 +64,22 @@ public:
 	virtual CDuiString GetSkinFolder()              {   return _T("");  }
  	void OnFinalMessage(HWND /*hWnd*/) { };
 	virtual void InitWindow();
+	void GenerateListexNormalData();
 	void OnSelectChanged(TNotifyUI & msg);
 	virtual void OnClick(TNotifyUI & msg) override;
 	void OnItemSelect(TNotifyUI & msg);
+	void OnHeaderClick(TNotifyUI & msg);
+	void OnLink(TNotifyUI & msg);
+	void OnItemActivate(TNotifyUI & msg);
 	void ShowMessage(LPCTSTR strMsg);
  	void Notify(TNotifyUI& msg);
+	//list数据回调
+	virtual LPCTSTR GetItemText(CControlUI* pList, int iItem, int iSubItem) override;
 private:
 	//初始化控件
 	bool InitControl(void);
+	void GenerateTileData();
+	void GenerateListFixData();
+	LRESULT OnAddListNormalItem(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled);
+	void OnAddListview1Data();
 };

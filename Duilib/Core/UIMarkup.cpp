@@ -7,27 +7,25 @@
 ///////////////////////////////////////////////////////////////////////////////////////
 DECLARE_HANDLE(HZIP);	// An HZIP identifies a zip file that has been opened
 typedef DWORD ZRESULT;
-typedef struct
-{ 
+typedef struct {
     int index;                 // index of this file within the zip
     char name[MAX_PATH];       // filename within the zip
     DWORD attr;                // attributes, as in GetFileAttributes.
-    FILETIME atime,ctime,mtime;// access, create, modify filetimes
+    FILETIME atime, ctime, mtime; // access, create, modify filetimes
     long comp_size;            // sizes of item, compressed and uncompressed. These
     long unc_size;             // may be -1 if not yet known (e.g. being streamed in)
 } ZIPENTRY;
-typedef struct
-{ 
+typedef struct {
     int index;                 // index of this file within the zip
     TCHAR name[MAX_PATH];      // filename within the zip
     DWORD attr;                // attributes, as in GetFileAttributes.
-    FILETIME atime,ctime,mtime;// access, create, modify filetimes
+    FILETIME atime, ctime, mtime; // access, create, modify filetimes
     long comp_size;            // sizes of item, compressed and uncompressed. These
     long unc_size;             // may be -1 if not yet known (e.g. being streamed in)
 } ZIPENTRYW;
 #define OpenZip OpenZipU
 #define CloseZip(hz) CloseZipU(hz)
-extern HZIP OpenZipU(void *z,unsigned int len,DWORD flags);
+extern HZIP OpenZipU(void *z, unsigned int len, DWORD flags);
 extern ZRESULT CloseZipU(HZIP hz);
 #ifdef _UNICODE
 #define ZIPENTRY ZIPENTRYW
@@ -51,39 +49,33 @@ namespace DuiLib {
 //
 //
 
-CMarkupNode::CMarkupNode() : m_pOwner(NULL)
-{
+CMarkupNode::CMarkupNode() : m_pOwner(NULL) {
 }
 
-CMarkupNode::CMarkupNode(CMarkup* pOwner, int iPos) : m_pOwner(pOwner), m_iPos(iPos), m_nAttributes(0)
-{
+CMarkupNode::CMarkupNode(CMarkup* pOwner, int iPos) : m_pOwner(pOwner), m_iPos(iPos), m_nAttributes(0) {
 }
 
-CMarkupNode CMarkupNode::GetSibling()
-{
+CMarkupNode CMarkupNode::GetSibling() {
     if( m_pOwner == NULL ) return CMarkupNode();
     ULONG iPos = m_pOwner->m_pElements[m_iPos].iNext;
     if( iPos == 0 ) return CMarkupNode();
     return CMarkupNode(m_pOwner, iPos);
 }
 
-bool CMarkupNode::HasSiblings() const
-{
+bool CMarkupNode::HasSiblings() const {
     if( m_pOwner == NULL ) return false;
     ULONG iPos = m_pOwner->m_pElements[m_iPos].iNext;
     return iPos > 0;
 }
 
-CMarkupNode CMarkupNode::GetChild()
-{
+CMarkupNode CMarkupNode::GetChild() {
     if( m_pOwner == NULL ) return CMarkupNode();
     ULONG iPos = m_pOwner->m_pElements[m_iPos].iChild;
     if( iPos == 0 ) return CMarkupNode();
     return CMarkupNode(m_pOwner, iPos);
 }
 
-CMarkupNode CMarkupNode::GetChild(LPCTSTR pstrName)
-{
+CMarkupNode CMarkupNode::GetChild(LPCTSTR pstrName) {
     if( m_pOwner == NULL ) return CMarkupNode();
     ULONG iPos = m_pOwner->m_pElements[m_iPos].iChild;
     while( iPos != 0 ) {
@@ -95,55 +87,47 @@ CMarkupNode CMarkupNode::GetChild(LPCTSTR pstrName)
     return CMarkupNode();
 }
 
-bool CMarkupNode::HasChildren() const
-{
+bool CMarkupNode::HasChildren() const {
     if( m_pOwner == NULL ) return false;
     return m_pOwner->m_pElements[m_iPos].iChild != 0;
 }
 
-CMarkupNode CMarkupNode::GetParent()
-{
+CMarkupNode CMarkupNode::GetParent() {
     if( m_pOwner == NULL ) return CMarkupNode();
     ULONG iPos = m_pOwner->m_pElements[m_iPos].iParent;
     if( iPos == 0 ) return CMarkupNode();
     return CMarkupNode(m_pOwner, iPos);
 }
 
-bool CMarkupNode::IsValid() const
-{
+bool CMarkupNode::IsValid() const {
     return m_pOwner != NULL;
 }
 
-LPCTSTR CMarkupNode::GetName() const
-{
+LPCTSTR CMarkupNode::GetName() const {
     if( m_pOwner == NULL ) return NULL;
     return m_pOwner->m_pstrXML + m_pOwner->m_pElements[m_iPos].iStart;
 }
 
-LPCTSTR CMarkupNode::GetValue() const
-{
+LPCTSTR CMarkupNode::GetValue() const {
     if( m_pOwner == NULL ) return NULL;
     return m_pOwner->m_pstrXML + m_pOwner->m_pElements[m_iPos].iData;
 }
 
-LPCTSTR CMarkupNode::GetAttributeName(int iIndex)
-{
+LPCTSTR CMarkupNode::GetAttributeName(int iIndex) {
     if( m_pOwner == NULL ) return NULL;
     if( m_nAttributes == 0 ) _MapAttributes();
     if( iIndex < 0 || iIndex >= m_nAttributes ) return _T("");
     return m_pOwner->m_pstrXML + m_aAttributes[iIndex].iName;
 }
 
-LPCTSTR CMarkupNode::GetAttributeValue(int iIndex)
-{
+LPCTSTR CMarkupNode::GetAttributeValue(int iIndex) {
     if( m_pOwner == NULL ) return NULL;
     if( m_nAttributes == 0 ) _MapAttributes();
     if( iIndex < 0 || iIndex >= m_nAttributes ) return _T("");
     return m_pOwner->m_pstrXML + m_aAttributes[iIndex].iValue;
 }
 
-LPCTSTR CMarkupNode::GetAttributeValue(LPCTSTR pstrName)
-{
+LPCTSTR CMarkupNode::GetAttributeValue(LPCTSTR pstrName) {
     if( m_pOwner == NULL ) return NULL;
     if( m_nAttributes == 0 ) _MapAttributes();
     for( int i = 0; i < m_nAttributes; i++ ) {
@@ -152,8 +136,7 @@ LPCTSTR CMarkupNode::GetAttributeValue(LPCTSTR pstrName)
     return _T("");
 }
 
-bool CMarkupNode::GetAttributeValue(int iIndex, LPTSTR pstrValue, SIZE_T cchMax)
-{
+bool CMarkupNode::GetAttributeValue(int iIndex, LPTSTR pstrValue, SIZE_T cchMax) {
     if( m_pOwner == NULL ) return false;
     if( m_nAttributes == 0 ) _MapAttributes();
     if( iIndex < 0 || iIndex >= m_nAttributes ) return false;
@@ -161,8 +144,7 @@ bool CMarkupNode::GetAttributeValue(int iIndex, LPTSTR pstrValue, SIZE_T cchMax)
     return true;
 }
 
-bool CMarkupNode::GetAttributeValue(LPCTSTR pstrName, LPTSTR pstrValue, SIZE_T cchMax)
-{
+bool CMarkupNode::GetAttributeValue(LPCTSTR pstrName, LPTSTR pstrValue, SIZE_T cchMax) {
     if( m_pOwner == NULL ) return false;
     if( m_nAttributes == 0 ) _MapAttributes();
     for( int i = 0; i < m_nAttributes; i++ ) {
@@ -174,22 +156,19 @@ bool CMarkupNode::GetAttributeValue(LPCTSTR pstrName, LPTSTR pstrValue, SIZE_T c
     return false;
 }
 
-int CMarkupNode::GetAttributeCount()
-{
+int CMarkupNode::GetAttributeCount() {
     if( m_pOwner == NULL ) return 0;
     if( m_nAttributes == 0 ) _MapAttributes();
     return m_nAttributes;
 }
 
-bool CMarkupNode::HasAttributes()
-{
+bool CMarkupNode::HasAttributes() {
     if( m_pOwner == NULL ) return false;
     if( m_nAttributes == 0 ) _MapAttributes();
     return m_nAttributes > 0;
 }
 
-bool CMarkupNode::HasAttribute(LPCTSTR pstrName)
-{
+bool CMarkupNode::HasAttribute(LPCTSTR pstrName) {
     if( m_pOwner == NULL ) return false;
     if( m_nAttributes == 0 ) _MapAttributes();
     for( int i = 0; i < m_nAttributes; i++ ) {
@@ -198,8 +177,7 @@ bool CMarkupNode::HasAttribute(LPCTSTR pstrName)
     return false;
 }
 
-void CMarkupNode::_MapAttributes()
-{
+void CMarkupNode::_MapAttributes() {
     m_nAttributes = 0;
     LPCTSTR pstr = m_pOwner->m_pstrXML + m_pOwner->m_pElements[m_iPos].iStart;
     LPCTSTR pstrEnd = m_pOwner->m_pstrXML + m_pOwner->m_pElements[m_iPos].iData;
@@ -210,7 +188,7 @@ void CMarkupNode::_MapAttributes()
         pstr += _tcslen(pstr) + 1;
         m_pOwner->_SkipWhitespace(pstr);
         if( *pstr++ != _T('\"') ) return; // if( *pstr != _T('\"') ) { pstr = ::CharNext(pstr); return; }
-        
+
         m_aAttributes[m_nAttributes++].iValue = pstr - m_pOwner->m_pstrXML;
         if( m_nAttributes >= MAX_XML_ATTRIBUTES ) return;
         pstr += _tcslen(pstr) + 1;
@@ -223,8 +201,7 @@ void CMarkupNode::_MapAttributes()
 //
 //
 
-CMarkup::CMarkup(LPCTSTR pstrXML)
-{
+CMarkup::CMarkup(LPCTSTR pstrXML) {
     m_pstrXML = NULL;
     m_pElements = NULL;
     m_nElements = 0;
@@ -232,23 +209,19 @@ CMarkup::CMarkup(LPCTSTR pstrXML)
     if( pstrXML != NULL ) Load(pstrXML);
 }
 
-CMarkup::~CMarkup()
-{
+CMarkup::~CMarkup() {
     Release();
 }
 
-bool CMarkup::IsValid() const
-{
+bool CMarkup::IsValid() const {
     return m_pElements != NULL;
 }
 
-void CMarkup::SetPreserveWhitespace(bool bPreserve)
-{
+void CMarkup::SetPreserveWhitespace(bool bPreserve) {
     m_bPreserveWhitespace = bPreserve;
 }
 
-bool CMarkup::Load(LPCTSTR pstrXML)
-{
+bool CMarkup::Load(LPCTSTR pstrXML) {
     Release();
     SIZE_T cchLen = _tcslen(pstrXML) + 1;
     m_pstrXML = static_cast<LPTSTR>(malloc(cchLen * sizeof(TCHAR)));
@@ -258,52 +231,41 @@ bool CMarkup::Load(LPCTSTR pstrXML)
     return bRes;
 }
 
-bool CMarkup::LoadFromMem(BYTE* pByte, DWORD dwSize, int encoding)
-{
+bool CMarkup::LoadFromMem(BYTE* pByte, DWORD dwSize, int encoding) {
 #ifdef _UNICODE
-    if (encoding == XMLFILE_ENCODING_UTF8)
-    {
-        if( dwSize >= 3 && pByte[0] == 0xEF && pByte[1] == 0xBB && pByte[2] == 0xBF ) 
-        {
-            pByte += 3; dwSize -= 3;
+    if (encoding == XMLFILE_ENCODING_UTF8) {
+        if( dwSize >= 3 && pByte[0] == 0xEF && pByte[1] == 0xBB && pByte[2] == 0xBF ) {
+            pByte += 3;
+            dwSize -= 3;
         }
         DWORD nWide = ::MultiByteToWideChar( CP_UTF8, 0, (LPCSTR)pByte, dwSize, NULL, 0 );
 
-        m_pstrXML = static_cast<LPTSTR>(malloc((nWide + 1)*sizeof(TCHAR)));
+        m_pstrXML = static_cast<LPTSTR>(malloc((nWide + 1) * sizeof(TCHAR)));
         ::MultiByteToWideChar( CP_UTF8, 0, (LPCSTR)pByte, dwSize, m_pstrXML, nWide );
         m_pstrXML[nWide] = _T('\0');
-    }
-    else if (encoding == XMLFILE_ENCODING_ASNI)
-    {
+    } else if (encoding == XMLFILE_ENCODING_ASNI) {
         DWORD nWide = ::MultiByteToWideChar( CP_ACP, 0, (LPCSTR)pByte, dwSize, NULL, 0 );
 
-        m_pstrXML = static_cast<LPTSTR>(malloc((nWide + 1)*sizeof(TCHAR)));
+        m_pstrXML = static_cast<LPTSTR>(malloc((nWide + 1) * sizeof(TCHAR)));
         ::MultiByteToWideChar( CP_ACP, 0, (LPCSTR)pByte, dwSize, m_pstrXML, nWide );
         m_pstrXML[nWide] = _T('\0');
-    }
-    else
-    {
-        if ( dwSize >= 2 && ( ( pByte[0] == 0xFE && pByte[1] == 0xFF ) || ( pByte[0] == 0xFF && pByte[1] == 0xFE ) ) )
-        {
+    } else {
+        if ( dwSize >= 2 && ( ( pByte[0] == 0xFE && pByte[1] == 0xFF ) || ( pByte[0] == 0xFF && pByte[1] == 0xFE ) ) ) {
             dwSize = dwSize / 2 - 1;
 
-            if ( pByte[0] == 0xFE && pByte[1] == 0xFF )
-            {
+            if ( pByte[0] == 0xFE && pByte[1] == 0xFF ) {
                 pByte += 2;
 
-                for ( DWORD nSwap = 0 ; nSwap < dwSize ; nSwap ++ )
-                {
+                for ( DWORD nSwap = 0 ; nSwap < dwSize ; nSwap ++ ) {
                     register CHAR nTemp = pByte[ ( nSwap << 1 ) + 0 ];
                     pByte[ ( nSwap << 1 ) + 0 ] = pByte[ ( nSwap << 1 ) + 1 ];
                     pByte[ ( nSwap << 1 ) + 1 ] = nTemp;
                 }
-            }
-            else
-            {
+            } else {
                 pByte += 2;
             }
 
-            m_pstrXML = static_cast<LPTSTR>(malloc((dwSize + 1)*sizeof(TCHAR)));
+            m_pstrXML = static_cast<LPTSTR>(malloc((dwSize + 1) * sizeof(TCHAR)));
             ::CopyMemory( m_pstrXML, pByte, dwSize * sizeof(TCHAR) );
             m_pstrXML[dwSize] = _T('\0');
 
@@ -311,59 +273,49 @@ bool CMarkup::LoadFromMem(BYTE* pByte, DWORD dwSize, int encoding)
         }
     }
 #else // !_UNICODE
-    if (encoding == XMLFILE_ENCODING_UTF8)
-    {
-        if( dwSize >= 3 && pByte[0] == 0xEF && pByte[1] == 0xBB && pByte[2] == 0xBF ) 
-        {
-            pByte += 3; dwSize -= 3;
+    if (encoding == XMLFILE_ENCODING_UTF8) {
+        if( dwSize >= 3 && pByte[0] == 0xEF && pByte[1] == 0xBB && pByte[2] == 0xBF ) {
+            pByte += 3;
+            dwSize -= 3;
         }
         DWORD nWide = ::MultiByteToWideChar( CP_UTF8, 0, (LPCSTR)pByte, dwSize, NULL, 0 );
 
-        LPWSTR w_str = static_cast<LPWSTR>(malloc((nWide + 1)*sizeof(WCHAR)));
+        LPWSTR w_str = static_cast<LPWSTR>(malloc((nWide + 1) * sizeof(WCHAR)));
         ::MultiByteToWideChar( CP_UTF8, 0, (LPCSTR)pByte, dwSize, w_str, nWide );
         w_str[nWide] = L'\0';
 
         DWORD wide = ::WideCharToMultiByte(CP_ACP, 0, (LPCWSTR)w_str, nWide, NULL, 0, NULL, NULL);
 
-        m_pstrXML = static_cast<LPTSTR>(malloc((wide + 1)*sizeof(TCHAR)));
+        m_pstrXML = static_cast<LPTSTR>(malloc((wide + 1) * sizeof(TCHAR)));
         ::WideCharToMultiByte( CP_ACP, 0, (LPCWSTR)w_str, nWide, m_pstrXML, wide, NULL, NULL);
         m_pstrXML[wide] = _T('\0');
 
         free(w_str);
-    }
-    else if (encoding == XMLFILE_ENCODING_UNICODE)
-    {
-        if ( dwSize >= 2 && ( ( pByte[0] == 0xFE && pByte[1] == 0xFF ) || ( pByte[0] == 0xFF && pByte[1] == 0xFE ) ) )
-        {
+    } else if (encoding == XMLFILE_ENCODING_UNICODE) {
+        if ( dwSize >= 2 && ( ( pByte[0] == 0xFE && pByte[1] == 0xFF ) || ( pByte[0] == 0xFF && pByte[1] == 0xFE ) ) ) {
             dwSize = dwSize / 2 - 1;
 
-            if ( pByte[0] == 0xFE && pByte[1] == 0xFF )
-            {
+            if ( pByte[0] == 0xFE && pByte[1] == 0xFF ) {
                 pByte += 2;
 
-                for ( DWORD nSwap = 0 ; nSwap < dwSize ; nSwap ++ )
-                {
+                for ( DWORD nSwap = 0 ; nSwap < dwSize ; nSwap ++ ) {
                     register CHAR nTemp = pByte[ ( nSwap << 1 ) + 0 ];
                     pByte[ ( nSwap << 1 ) + 0 ] = pByte[ ( nSwap << 1 ) + 1 ];
                     pByte[ ( nSwap << 1 ) + 1 ] = nTemp;
                 }
-            }
-            else
-            {
+            } else {
                 pByte += 2;
             }
 
             DWORD nWide = ::WideCharToMultiByte(CP_ACP, 0, (LPCWSTR)pByte, dwSize, NULL, 0, NULL, NULL);
-            m_pstrXML = static_cast<LPTSTR>(malloc((nWide + 1)*sizeof(TCHAR)));
+            m_pstrXML = static_cast<LPTSTR>(malloc((nWide + 1) * sizeof(TCHAR)));
             ::WideCharToMultiByte( CP_ACP, 0, (LPCWSTR)pByte, dwSize, m_pstrXML, nWide, NULL, NULL);
             m_pstrXML[nWide] = _T('\0');
 
             pByte -= 2;
         }
-    }
-    else
-    {
-        m_pstrXML = static_cast<LPTSTR>(malloc((dwSize + 1)*sizeof(TCHAR)));
+    } else {
+        m_pstrXML = static_cast<LPTSTR>(malloc((dwSize + 1) * sizeof(TCHAR)));
         ::CopyMemory( m_pstrXML, pByte, dwSize * sizeof(TCHAR) );
         m_pstrXML[dwSize] = _T('\0');
     }
@@ -374,8 +326,7 @@ bool CMarkup::LoadFromMem(BYTE* pByte, DWORD dwSize, int encoding)
     return bRes;
 }
 
-bool CMarkup::LoadFromFile(LPCTSTR pstrFilename, int encoding)
-{
+bool CMarkup::LoadFromFile(LPCTSTR pstrFilename, int encoding) {
     Release();
     CDuiString sFile = CPaintManagerUI::GetResourcePath();
     if( CPaintManagerUI::GetResourceZip().IsEmpty() ) {
@@ -384,7 +335,7 @@ bool CMarkup::LoadFromFile(LPCTSTR pstrFilename, int encoding)
         if( hFile == INVALID_HANDLE_VALUE ) return _Failed(_T("Error opening file"));
         DWORD dwSize = ::GetFileSize(hFile, NULL);
         if( dwSize == 0 ) return _Failed(_T("File is empty"));
-        if ( dwSize > 4096*1024 ) return _Failed(_T("File too large"));
+        if ( dwSize > 4096 * 1024 ) return _Failed(_T("File too large"));
 
         DWORD dwRead = 0;
         BYTE* pByte = new BYTE[ dwSize ];
@@ -400,19 +351,18 @@ bool CMarkup::LoadFromFile(LPCTSTR pstrFilename, int encoding)
         delete[] pByte;
 
         return ret;
-    }
-    else {
+    } else {
         sFile += CPaintManagerUI::GetResourceZip();
         HZIP hz = NULL;
         if( CPaintManagerUI::IsCachedResourceZip() ) hz = (HZIP)CPaintManagerUI::GetResourceZipHandle();
         else hz = OpenZip((void*)sFile.GetData(), 0, 2);
         if( hz == NULL ) return _Failed(_T("Error opening zip file"));
-        ZIPENTRY ze; 
-        int i; 
+        ZIPENTRY ze;
+        int i;
         if( FindZipItem(hz, pstrFilename, true, &i, &ze) != 0 ) return _Failed(_T("Could not find ziped file"));
         DWORD dwSize = ze.unc_size;
         if( dwSize == 0 ) return _Failed(_T("File is empty"));
-        if ( dwSize > 4096*1024 ) return _Failed(_T("File too large"));
+        if ( dwSize > 4096 * 1024 ) return _Failed(_T("File too large"));
         BYTE* pByte = new BYTE[ dwSize ];
         int res = UnzipItem(hz, i, pByte, dwSize, 3);
         if( res != 0x00000000 && res != 0x00000600) {
@@ -428,8 +378,7 @@ bool CMarkup::LoadFromFile(LPCTSTR pstrFilename, int encoding)
     }
 }
 
-void CMarkup::Release()
-{
+void CMarkup::Release() {
     if( m_pstrXML != NULL ) free(m_pstrXML);
     if( m_pElements != NULL ) free(m_pElements);
     m_pstrXML = NULL;
@@ -437,24 +386,20 @@ void CMarkup::Release()
     m_nElements;
 }
 
-void CMarkup::GetLastErrorMessage(LPTSTR pstrMessage, SIZE_T cchMax) const
-{
+void CMarkup::GetLastErrorMessage(LPTSTR pstrMessage, SIZE_T cchMax) const {
     _tcsncpy(pstrMessage, m_szErrorMsg, cchMax);
 }
 
-void CMarkup::GetLastErrorLocation(LPTSTR pstrSource, SIZE_T cchMax) const
-{
+void CMarkup::GetLastErrorLocation(LPTSTR pstrSource, SIZE_T cchMax) const {
     _tcsncpy(pstrSource, m_szErrorXML, cchMax);
 }
 
-CMarkupNode CMarkup::GetRoot()
-{
+CMarkupNode CMarkup::GetRoot() {
     if( m_nElements == 0 ) return CMarkupNode();
     return CMarkupNode(this, 1);
 }
 
-bool CMarkup::_Parse()
-{
+bool CMarkup::_Parse() {
     _ReserveElement(); // Reserve index 0 for errors
     ::ZeroMemory(m_szErrorMsg, sizeof(m_szErrorMsg));
     ::ZeroMemory(m_szErrorXML, sizeof(m_szErrorXML));
@@ -462,12 +407,10 @@ bool CMarkup::_Parse()
     return _Parse(pstrXML, 0);
 }
 
-bool CMarkup::_Parse(LPTSTR& pstrText, ULONG iParent)
-{
+bool CMarkup::_Parse(LPTSTR& pstrText, ULONG iParent) {
     _SkipWhitespace(pstrText);
     ULONG iPrevious = 0;
-    for( ; ; ) 
-    {
+    for( ; ; ) {
         if( *pstrText == _T('\0') && iParent <= 1 ) return true;
         _SkipWhitespace(pstrText);
         if( *pstrText != _T('<') ) return _Failed(_T("Expected start tag"), pstrText);
@@ -501,14 +444,11 @@ bool CMarkup::_Parse(LPTSTR& pstrText, ULONG iParent)
         // Parse attributes
         if( !_ParseAttributes(pstrText) ) return false;
         _SkipWhitespace(pstrText);
-        if( pstrText[0] == _T('/') && pstrText[1] == _T('>') )
-        {
+        if( pstrText[0] == _T('/') && pstrText[1] == _T('>') ) {
             pEl->iData = pstrText - m_pstrXML;
             *pstrText = _T('\0');
             pstrText += 2;
-        }
-        else
-        {
+        } else {
             if( *pstrText != _T('>') ) return _Failed(_T("Expected start-tag closing"), pstrText);
             // Parse node data
             pEl->iData = ++pstrText - m_pstrXML;
@@ -517,12 +457,10 @@ bool CMarkup::_Parse(LPTSTR& pstrText, ULONG iParent)
             // Determine type of next element
             if( *pstrText == _T('\0') && iParent <= 1 ) return true;
             if( *pstrText != _T('<') ) return _Failed(_T("Expected end-tag start"), pstrText);
-            if( pstrText[0] == _T('<') && pstrText[1] != _T('/') ) 
-            {
+            if( pstrText[0] == _T('<') && pstrText[1] != _T('/') ) {
                 if( !_Parse(pstrText, iPos) ) return false;
             }
-            if( pstrText[0] == _T('<') && pstrText[1] == _T('/') ) 
-            {
+            if( pstrText[0] == _T('<') && pstrText[1] == _T('/') ) {
                 *pstrDest = _T('\0');
                 *pstrText = _T('\0');
                 pstrText += 2;
@@ -539,8 +477,7 @@ bool CMarkup::_Parse(LPTSTR& pstrText, ULONG iParent)
     }
 }
 
-CMarkup::XMLELEMENT* CMarkup::_ReserveElement()
-{
+CMarkup::XMLELEMENT* CMarkup::_ReserveElement() {
     if( m_nElements == 0 ) m_nReservedElements = 0;
     if( m_nElements >= m_nReservedElements ) {
         m_nReservedElements += (m_nReservedElements / 2) + 500;
@@ -549,30 +486,25 @@ CMarkup::XMLELEMENT* CMarkup::_ReserveElement()
     return &m_pElements[m_nElements++];
 }
 
-void CMarkup::_SkipWhitespace(LPCTSTR& pstr) const
-{
+void CMarkup::_SkipWhitespace(LPCTSTR& pstr) const {
     while( *pstr > _T('\0') && *pstr <= _T(' ') ) pstr = ::CharNext(pstr);
 }
 
-void CMarkup::_SkipWhitespace(LPTSTR& pstr) const
-{
+void CMarkup::_SkipWhitespace(LPTSTR& pstr) const {
     while( *pstr > _T('\0') && *pstr <= _T(' ') ) pstr = ::CharNext(pstr);
 }
 
-void CMarkup::_SkipIdentifier(LPCTSTR& pstr) const
-{
+void CMarkup::_SkipIdentifier(LPCTSTR& pstr) const {
     // 属性只能用英文，所以这样处理没有问题
     while( *pstr != _T('\0') && (*pstr == _T('_') || *pstr == _T(':') || _istalnum(*pstr)) ) pstr = ::CharNext(pstr);
 }
 
-void CMarkup::_SkipIdentifier(LPTSTR& pstr) const
-{
+void CMarkup::_SkipIdentifier(LPTSTR& pstr) const {
     // 属性只能用英文，所以这样处理没有问题
     while( *pstr != _T('\0') && (*pstr == _T('_') || *pstr == _T(':') || _istalnum(*pstr)) ) pstr = ::CharNext(pstr);
 }
 
-bool CMarkup::_ParseAttributes(LPTSTR& pstrText)
-{   
+bool CMarkup::_ParseAttributes(LPTSTR& pstrText) {
     if( *pstrText == _T('>') ) return true;
     *pstrText++ = _T('\0');
     _SkipWhitespace(pstrText);
@@ -596,22 +528,20 @@ bool CMarkup::_ParseAttributes(LPTSTR& pstrText)
     return true;
 }
 
-bool CMarkup::_ParseData(LPTSTR& pstrText, LPTSTR& pstrDest, char cEnd)
-{
+bool CMarkup::_ParseData(LPTSTR& pstrText, LPTSTR& pstrDest, char cEnd) {
     while( *pstrText != _T('\0') && *pstrText != cEnd ) {
-		if( *pstrText == _T('&') ) {
-			while( *pstrText == _T('&') ) {
-				_ParseMetaChar(++pstrText, pstrDest);
-			}
-			if (*pstrText == cEnd)
-				break;
-		}
+        if( *pstrText == _T('&') ) {
+            while( *pstrText == _T('&') ) {
+                _ParseMetaChar(++pstrText, pstrDest);
+            }
+            if (*pstrText == cEnd)
+                break;
+        }
 
         if( *pstrText == _T(' ') ) {
             *pstrDest++ = *pstrText++;
             if( !m_bPreserveWhitespace ) _SkipWhitespace(pstrText);
-        }
-        else {
+        } else {
             LPTSTR pstrTemp = ::CharNext(pstrText);
             while( pstrText < pstrTemp) {
                 *pstrDest++ = *pstrText++;
@@ -625,35 +555,28 @@ bool CMarkup::_ParseData(LPTSTR& pstrText, LPTSTR& pstrDest, char cEnd)
     return true;
 }
 
-void CMarkup::_ParseMetaChar(LPTSTR& pstrText, LPTSTR& pstrDest)
-{
+void CMarkup::_ParseMetaChar(LPTSTR& pstrText, LPTSTR& pstrDest) {
     if( pstrText[0] == _T('a') && pstrText[1] == _T('m') && pstrText[2] == _T('p') && pstrText[3] == _T(';') ) {
         *pstrDest++ = _T('&');
         pstrText += 4;
-    }
-    else if( pstrText[0] == _T('l') && pstrText[1] == _T('t') && pstrText[2] == _T(';') ) {
+    } else if( pstrText[0] == _T('l') && pstrText[1] == _T('t') && pstrText[2] == _T(';') ) {
         *pstrDest++ = _T('<');
         pstrText += 3;
-    }
-    else if( pstrText[0] == _T('g') && pstrText[1] == _T('t') && pstrText[2] == _T(';') ) {
+    } else if( pstrText[0] == _T('g') && pstrText[1] == _T('t') && pstrText[2] == _T(';') ) {
         *pstrDest++ = _T('>');
         pstrText += 3;
-    }
-    else if( pstrText[0] == _T('q') && pstrText[1] == _T('u') && pstrText[2] == _T('o') && pstrText[3] == _T('t') && pstrText[4] == _T(';') ) {
+    } else if( pstrText[0] == _T('q') && pstrText[1] == _T('u') && pstrText[2] == _T('o') && pstrText[3] == _T('t') && pstrText[4] == _T(';') ) {
         *pstrDest++ = _T('\"');
         pstrText += 5;
-    }
-    else if( pstrText[0] == _T('a') && pstrText[1] == _T('p') && pstrText[2] == _T('o') && pstrText[3] == _T('s') && pstrText[4] == _T(';') ) {
+    } else if( pstrText[0] == _T('a') && pstrText[1] == _T('p') && pstrText[2] == _T('o') && pstrText[3] == _T('s') && pstrText[4] == _T(';') ) {
         *pstrDest++ = _T('\'');
         pstrText += 5;
-    }
-    else {
+    } else {
         *pstrDest++ = _T('&');
     }
 }
 
-bool CMarkup::_Failed(LPCTSTR pstrError, LPCTSTR pstrLocation)
-{
+bool CMarkup::_Failed(LPCTSTR pstrError, LPCTSTR pstrLocation) {
     // Register last error
     TRACE(_T("XML Error: %s"), pstrError);
     if( pstrLocation != NULL ) TRACE(pstrLocation);

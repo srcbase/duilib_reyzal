@@ -41,7 +41,6 @@
 #include <olectl.h>
 #include "UIlib.h"
 
-
 #define lengthof(x) (sizeof(x)/sizeof(*x))
 #define MAX max
 #define MIN min

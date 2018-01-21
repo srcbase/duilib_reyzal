@@ -5,8 +5,7 @@
 
 namespace DuiLib {
 
-enum
-{
+enum {
     XMLFILE_ENCODING_UTF8 = 0,
     XMLFILE_ENCODING_UNICODE = 1,
     XMLFILE_ENCODING_ASNI = 2,
@@ -16,8 +15,7 @@ class CMarkup;
 class CMarkupNode;
 
 
-class DUILIB_API CMarkup
-{
+class DUILIB_API CMarkup {
     friend class CMarkupNode;
 public:
     CMarkup(LPCTSTR pstrXML = NULL);
@@ -36,8 +34,7 @@ public:
     CMarkupNode GetRoot();
 
 private:
-    typedef struct tagXMLELEMENT
-    {
+    typedef struct tagXMLELEMENT {
         ULONG iStart;
         ULONG iChild;
         ULONG iNext;
@@ -68,8 +65,7 @@ private:
 };
 
 
-class DUILIB_API CMarkupNode
-{
+class DUILIB_API CMarkupNode {
     friend class CMarkup;
 private:
     CMarkupNode();
@@ -102,8 +98,7 @@ private:
 
     enum { MAX_XML_ATTRIBUTES = 64 };
 
-    typedef struct
-    {
+    typedef struct {
         ULONG iName;
         ULONG iValue;
     } XMLATTRIBUTE;

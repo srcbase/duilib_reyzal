@@ -46,20 +46,18 @@ LPCTSTR DUILIB_API DUI__TraceMsg(UINT uMsg);
 /////////////////////////////////////////////////////////////////////////////////////
 //
 
-class DUILIB_API CNotifyPump
-{
+class DUILIB_API CNotifyPump {
 public:
-	bool AddVirtualWnd(CDuiString strName,CNotifyPump* pObject);
-	bool RemoveVirtualWnd(CDuiString strName);
-	void NotifyPump(TNotifyUI& msg);
-	bool LoopDispatch(TNotifyUI& msg);
-	DUI_DECLARE_MESSAGE_MAP()
+    bool AddVirtualWnd(CDuiString strName, CNotifyPump* pObject);
+    bool RemoveVirtualWnd(CDuiString strName);
+    void NotifyPump(TNotifyUI& msg);
+    bool LoopDispatch(TNotifyUI& msg);
+    DUI_DECLARE_MESSAGE_MAP()
 private:
-	CDuiStringPtrMap m_VirtualWndMap;
+    CDuiStringPtrMap m_VirtualWndMap;
 };
 
-class DUILIB_API CWindowWnd
-{
+class DUILIB_API CWindowWnd {
 public:
     CWindowWnd();
 
@@ -71,11 +69,11 @@ public:
 
     HWND Create(HWND hwndParent, LPCTSTR pstrName, DWORD dwStyle, DWORD dwExStyle, const RECT rc, HMENU hMenu = NULL);
     HWND Create(HWND hwndParent, LPCTSTR pstrName, DWORD dwStyle, DWORD dwExStyle, int x = CW_USEDEFAULT, int y = CW_USEDEFAULT, int cx = CW_USEDEFAULT, int cy = CW_USEDEFAULT, HMENU hMenu = NULL);
-    HWND CreateDuiWindow(HWND hwndParent, LPCTSTR pstrWindowName,DWORD dwStyle =0, DWORD dwExStyle =0);
+    HWND CreateDuiWindow(HWND hwndParent, LPCTSTR pstrWindowName, DWORD dwStyle = 0, DWORD dwExStyle = 0);
     HWND Subclass(HWND hWnd);
     void Unsubclass();
     void ShowWindow(bool bShow = true, bool bTakeFocus = true);
-    UINT ShowModal();
+    INT_PTR ShowModal();
     void Close(UINT nRet = IDOK);
     void CenterWindow();	// 居中，支持扩展屏幕
     void SetIcon(UINT nRes);

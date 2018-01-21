@@ -4,4 +4,8 @@
     <LocalDebuggerCommandArguments>skin.xml D:\openlib\duilib\bin\skin\360SafeRes</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LocalDebuggerCommandArguments>skin.xml D:\openlib\duilib\bin\skin\360SafeRes</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
 </Project>

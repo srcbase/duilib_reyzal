@@ -15,11 +15,10 @@ class CListHeaderUI;
 
 #define UILIST_MAX_COLUMNS 64
 
-typedef struct tagTListInfoUI
-{
+typedef struct tagTListInfoUI {
     int nColumns;
     RECT rcColumn[UILIST_MAX_COLUMNS];
-    UINT uFixedHeight; 
+    UINT uFixedHeight;
     int nFont;
     UINT uTextStyle;
     RECT rcTextPadding;
@@ -40,9 +39,9 @@ typedef struct tagTListInfoUI
     DWORD dwHLineColor;
     int iVLineSize;
     DWORD dwVLineColor;
-	DWORD dwLineColor;
-	bool bShowRowLine;
-	bool bShowColumnLine;
+    DWORD dwLineColor;
+    bool bShowRowLine;
+    bool bShowColumnLine;
     bool bShowHtml;
     bool bMultiExpandable;
 } TListInfoUI;
@@ -51,25 +50,22 @@ typedef struct tagTListInfoUI
 /////////////////////////////////////////////////////////////////////////////////////
 //
 
-class IListCallbackUI
-{
+class IListCallbackUI {
 public:
     virtual LPCTSTR GetItemText(CControlUI* pList, int iItem, int iSubItem) = 0;
 };
 
-class IListOwnerUI
-{
+class IListOwnerUI {
 public:
     virtual TListInfoUI* GetListInfo() = 0;
     virtual int GetCurSel() const = 0;
-    virtual bool SelectItem(int iIndex, bool bTakeFocus = false, bool bTriggerEvent=true) = 0;
+    virtual bool SelectItem(int iIndex, bool bTakeFocus = false, bool bTriggerEvent = true) = 0;
     virtual void DoEvent(TEventUI& event) = 0;
     virtual bool ExpandItem(int iIndex, bool bExpand = true) = 0;
     virtual int GetExpandedItem() const = 0;
 };
 
-class IListUI : public IListOwnerUI
-{
+class IListUI : public IListOwnerUI {
 public:
     virtual CListHeaderUI* GetHeader() const = 0;
     virtual CContainerUI* GetList() const = 0;
@@ -77,8 +73,7 @@ public:
     virtual void SetTextCallback(IListCallbackUI* pCallback) = 0;
 };
 
-class IListItemUI
-{
+class IListItemUI {
 public:
     virtual int GetIndex() const = 0;
     virtual void SetIndex(int iIndex) = 0;
@@ -87,7 +82,7 @@ public:
     virtual IListOwnerUI* GetOwner() = 0;
     virtual void SetOwner(CControlUI* pOwner) = 0;
     virtual bool IsSelected() const = 0;
-    virtual bool Select(bool bSelect = true, bool bTriggerEvent=true) = 0;
+    virtual bool Select(bool bSelect = true, bool bTriggerEvent = true) = 0;
     virtual bool IsExpanded() const = 0;
     virtual bool Expand(bool bExpand = true) = 0;
     virtual void DrawItemText(HDC hDC, const RECT& rcItem) = 0;
@@ -100,8 +95,7 @@ public:
 class CListBodyUI;
 class CListHeaderUI;
 
-class DUILIB_API CListUI : public CVerticalLayoutUI, public IListUI
-{
+class DUILIB_API CListUI : public CVerticalLayoutUI, public IListUI {
 public:
     CListUI();
 
@@ -112,7 +106,7 @@ public:
     bool GetScrollSelect();
     void SetScrollSelect(bool bScrollSelect);
     int GetCurSel() const;
-    bool SelectItem(int iIndex, bool bTakeFocus = false, bool bTriggerEvent=true);
+    bool SelectItem(int iIndex, bool bTakeFocus = false, bool bTriggerEvent = true);
 
     CControlUI* GetItemAt(int iIndex) const;
     int GetItemIndex(CControlUI* pControl) const;
@@ -121,8 +115,8 @@ public:
     int GetCount() const;
     bool Add(CControlUI* pControl);
     bool AddAt(CControlUI* pControl, int iIndex);
-    bool Remove(CControlUI* pControl, bool bDoNotDestroy=false);
-    bool RemoveAt(int iIndex, bool bDoNotDestroy=false);
+    bool Remove(CControlUI* pControl, bool bDoNotDestroy = false);
+    bool RemoveAt(int iIndex, bool bDoNotDestroy = false);
     void RemoveAll();
 
     void EnsureVisible(int iIndex);
@@ -131,7 +125,7 @@ public:
     int GetChildPadding() const;
     void SetChildPadding(int iPadding);
 
-    CListHeaderUI* GetHeader() const;  
+    CListHeaderUI* GetHeader() const;
     CContainerUI* GetList() const;
     TListInfoUI* GetListInfo();
 
@@ -177,21 +171,21 @@ public:
     void SetItemVLineSize(int iSize);
     DWORD GetItemVLineColor() const;
     void SetItemVLineColor(DWORD dwLineColor);
-	DWORD GetItemLineColor() const;
-	void SetItemLineColor(DWORD dwLineColor);
-	bool IsItemShowRowLine() const;
-	void SetItemShowRowLine(bool bShowLine = false);
-	bool IsItemShowColumnLine() const;
-	void SetItemShowColumnLine(bool bShowLine = false);
-	bool IsItemShowHtml();
-	void SetItemShowHtml(bool bShowHtml = true);
+    DWORD GetItemLineColor() const;
+    void SetItemLineColor(DWORD dwLineColor);
+    bool IsItemShowRowLine() const;
+    void SetItemShowRowLine(bool bShowLine = false);
+    bool IsItemShowColumnLine() const;
+    void SetItemShowColumnLine(bool bShowLine = false);
+    bool IsItemShowHtml();
+    void SetItemShowHtml(bool bShowHtml = true);
 
-    void SetMultiExpanding(bool bMultiExpandable); 
+    void SetMultiExpanding(bool bMultiExpandable);
     int GetExpandedItem() const;
     bool ExpandItem(int iIndex, bool bExpand = true);
 
-	void SetPos(RECT rc, bool bNeedInvalidate = true);
-	void Move(SIZE szOffset, bool bNeedInvalidate = true);
+    void SetPos(RECT rc, bool bNeedInvalidate = true);
+    void Move(SIZE szOffset, bool bNeedInvalidate = true);
     void DoEvent(TEventUI& event);
     void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 
@@ -231,8 +225,7 @@ protected:
 /////////////////////////////////////////////////////////////////////////////////////
 //
 
-class DUILIB_API CListHeaderUI : public CHorizontalLayoutUI
-{
+class DUILIB_API CListHeaderUI : public CHorizontalLayoutUI {
 public:
     CListHeaderUI();
 
@@ -246,8 +239,7 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////
 //
 
-class DUILIB_API CListHeaderItemUI : public CControlUI
-{
+class DUILIB_API CListHeaderItemUI : public CContainerUI {
 public:
     CListHeaderItemUI();
 
@@ -257,18 +249,18 @@ public:
 
     void SetEnabled(bool bEnable = true);
 
-	bool IsDragable() const;
+    bool IsDragable() const;
     void SetDragable(bool bDragable);
-	DWORD GetSepWidth() const;
+    DWORD GetSepWidth() const;
     void SetSepWidth(int iWidth);
-	DWORD GetTextStyle() const;
+    DWORD GetTextStyle() const;
     void SetTextStyle(UINT uStyle);
-	DWORD GetTextColor() const;
+    DWORD GetTextColor() const;
     void SetTextColor(DWORD dwTextColor);
     DWORD GetSepColor() const;
     void SetSepColor(DWORD dwSepColor);
-	void SetTextPadding(RECT rc);
-	RECT GetTextPadding() const;
+    void SetTextPadding(RECT rc);
+    RECT GetTextPadding() const;
     void SetFont(int index);
     bool IsShowHtml();
     void SetShowHtml(bool bShowHtml = true);
@@ -301,7 +293,7 @@ protected:
     int m_iFont;
     UINT m_uTextStyle;
     bool m_bShowHtml;
-	RECT m_rcTextPadding;
+    RECT m_rcTextPadding;
     TDrawInfo m_diNormal;
     TDrawInfo m_diHot;
     TDrawInfo m_diPushed;
@@ -313,8 +305,7 @@ protected:
 /////////////////////////////////////////////////////////////////////////////////////
 //
 
-class DUILIB_API CListElementUI : public CControlUI, public IListItemUI
-{
+class DUILIB_API CListElementUI : public CControlUI, public IListItemUI {
 public:
     CListElementUI();
 
@@ -334,7 +325,7 @@ public:
     void SetVisible(bool bVisible = true);
 
     bool IsSelected() const;
-    bool Select(bool bSelect = true, bool bTriggerEvent=true);
+    bool Select(bool bSelect = true, bool bTriggerEvent = true);
     bool IsExpanded() const;
     bool Expand(bool bExpand = true);
 
@@ -358,8 +349,7 @@ protected:
 /////////////////////////////////////////////////////////////////////////////////////
 //
 
-class DUILIB_API CListLabelElementUI : public CListElementUI
-{
+class DUILIB_API CListLabelElementUI : public CListElementUI {
 public:
     CListLabelElementUI();
 
@@ -383,7 +373,7 @@ protected:
     bool    m_bNeedEstimateSize;
 
     SIZE    m_szAvailableLast;
-    UINT    m_uFixedHeightLast; 
+    UINT    m_uFixedHeightLast;
     int     m_nFontLast;
     UINT    m_uTextStyleLast;
     RECT    m_rcTextPaddingLast;
@@ -393,8 +383,7 @@ protected:
 /////////////////////////////////////////////////////////////////////////////////////
 //
 
-class DUILIB_API CListTextElementUI : public CListLabelElementUI
-{
+class DUILIB_API CListTextElementUI : public CListLabelElementUI {
 public:
     CListTextElementUI();
     ~CListTextElementUI();
@@ -429,8 +418,7 @@ protected:
 /////////////////////////////////////////////////////////////////////////////////////
 //
 
-class DUILIB_API CListContainerElementUI : public CContainerUI, public IListItemUI
-{
+class DUILIB_API CListContainerElementUI : public CContainerUI, public IListItemUI {
 public:
     CListContainerElementUI();
 
@@ -449,7 +437,7 @@ public:
     void SetEnabled(bool bEnable = true);
 
     bool IsSelected() const;
-    bool Select(bool bSelect = true, bool bTriggerEvent=true);
+    bool Select(bool bSelect = true, bool bTriggerEvent = true);
     bool IsExpandable() const;
     void SetExpandable(bool bExpandable);
     bool IsExpanded() const;
@@ -462,10 +450,12 @@ public:
     void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
     bool DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl);
 
-    void DrawItemText(HDC hDC, const RECT& rcItem);    
+    void DrawItemText(HDC hDC, const RECT& rcItem);
     void DrawItemBk(HDC hDC, const RECT& rcItem);
 
     SIZE EstimateSize(SIZE szAvailable);
+
+    virtual void SetPos(RECT rc, bool bNeedInvalidate) override;
 
 protected:
     int m_iIndex;
@@ -480,8 +470,7 @@ protected:
 /////////////////////////////////////////////////////////////////////////////////////
 //
 
-class DUILIB_API CListHBoxElementUI : public CListContainerElementUI
-{
+class DUILIB_API CListHBoxElementUI : public CListContainerElementUI {
 public:
     CListHBoxElementUI();
 

@@ -5,21 +5,19 @@
 
 namespace DuiLib {
 
-class IDialogBuilderCallback
-{
+class IDialogBuilderCallback {
 public:
     virtual CControlUI* CreateControl(LPCTSTR pstrClass) = 0;
 };
 
 
-class DUILIB_API CDialogBuilder
-{
+class DUILIB_API CDialogBuilder {
 public:
     CDialogBuilder();
     CControlUI* Create(STRINGorID xml, LPCTSTR type = NULL, IDialogBuilderCallback* pCallback = NULL,
-        CPaintManagerUI* pManager = NULL, CControlUI* pParent = NULL);
+                       CPaintManagerUI* pManager = NULL, CControlUI* pParent = NULL);
     CControlUI* Create(IDialogBuilderCallback* pCallback = NULL, CPaintManagerUI* pManager = NULL,
-        CControlUI* pParent = NULL);
+                       CControlUI* pParent = NULL);
 
     CMarkup* GetMarkup();
 

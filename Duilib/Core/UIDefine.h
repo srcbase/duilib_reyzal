@@ -2,8 +2,7 @@
 //////////////BEGIN消息映射宏定义////////////////////////////////////////////////////
 ///
 
-namespace DuiLib
-{
+namespace DuiLib {
 
 #define _USEIMM					1
 #define MAX_FONT_ID				30000
@@ -11,35 +10,32 @@ namespace DuiLib
 
 #define SCROLLBAR_LINESIZE      8
 
-enum DuiSig
-{
-	DuiSig_end = 0, // [marks end of message map]
-	DuiSig_lwl,     // LRESULT (WPARAM, LPARAM)
-	DuiSig_vn,      // void (TNotifyUI)
+enum DuiSig {
+    DuiSig_end = 0, // [marks end of message map]
+    DuiSig_lwl,     // LRESULT (WPARAM, LPARAM)
+    DuiSig_vn,      // void (TNotifyUI)
 };
 
 class CControlUI;
 
 // Structure for notifications to the outside world
-typedef struct tagTNotifyUI 
-{
-	CDuiString sType;
-	CDuiString sVirtualWnd;
-	CControlUI* pSender;
-	DWORD dwTimestamp;
-	POINT ptMouse;
-	WPARAM wParam;
-	LPARAM lParam;
+typedef struct tagTNotifyUI {
+    CDuiString sType;
+    CDuiString sVirtualWnd;
+    CControlUI* pSender;
+    DWORD dwTimestamp;
+    POINT ptMouse;
+    WPARAM wParam;
+    LPARAM lParam;
 } TNotifyUI;
 
 class CNotifyPump;
 typedef void (CNotifyPump::*DUI_PMSG)(TNotifyUI& msg);  //指针类型
 
-union DuiMessageMapFunctions
-{
-	DUI_PMSG pfn;   // generic member function pointer
-	LRESULT (CNotifyPump::*pfn_Notify_lwl)(WPARAM, LPARAM);
-	void (CNotifyPump::*pfn_Notify_vn)(TNotifyUI&);
+union DuiMessageMapFunctions {
+    DUI_PMSG pfn;   // generic member function pointer
+    LRESULT (CNotifyPump::*pfn_Notify_lwl)(WPARAM, LPARAM);
+    void (CNotifyPump::*pfn_Notify_vn)(TNotifyUI&);
 };
 
 //定义所有消息类型
@@ -80,29 +76,33 @@ union DuiMessageMapFunctions
 
 #define DUI_MSGTYPE_SELECTCHANGED 		   (_T("selectchanged"))
 
+#define DUI_MSGTYPE_LISTITEMSELECT 		   	(_T("listitemselect"))
+#define DUI_MSGTYPE_LISTITEMCHECKED 		(_T("listitemchecked"))
+#define DUI_MSGTYPE_COMBOITEMSELECT 		(_T("comboitemselect"))
+#define DUI_MSGTYPE_LISTHEADERCLICK			(_T("listheaderclick"))
+#define DUI_MSGTYPE_LISTHEADITEMCHECKED		(_T("listheaditemchecked"))
+#define DUI_MSGTYPE_LISTPAGECHANGED			(_T("listpagechanged"))
 
 //////////////////////////////////////////////////////////////////////////
 
 
 
 struct DUI_MSGMAP_ENTRY;
-struct DUI_MSGMAP
-{
+struct DUI_MSGMAP {
 #ifndef UILIB_STATIC
-	const DUI_MSGMAP* (PASCAL* pfnGetBaseMap)();
+    const DUI_MSGMAP* (PASCAL* pfnGetBaseMap)();
 #else
-	const DUI_MSGMAP* pBaseMap;
+    const DUI_MSGMAP* pBaseMap;
 #endif
-	const DUI_MSGMAP_ENTRY* lpEntries;
+    const DUI_MSGMAP_ENTRY* lpEntries;
 };
 
 //结构定义
-struct DUI_MSGMAP_ENTRY //定义一个结构体，来存放消息信息
-{
-	CDuiString sMsgType;          // DUI消息类型
-	CDuiString sCtrlName;         // 控件名称
-	UINT       nSig;              // 标记函数指针类型
-	DUI_PMSG   pfn;               // 指向函数的指针
+struct DUI_MSGMAP_ENTRY { //定义一个结构体，来存放消息信息
+    CDuiString sMsgType;          // DUI消息类型
+    CDuiString sCtrlName;         // 控件名称
+    UINT       nSig;              // 标记函数指针类型
+    DUI_PMSG   pfn;               // 指向函数的指针
 };
 
 //定义
@@ -212,7 +212,7 @@ protected:                                                                \
 
 //定义与控件名称无关的消息宏
 
-  //定义timer消息--执行函数宏
+//定义timer消息--执行函数宏
 #define DUI_ON_TIMER()                                                    \
 	{ DUI_MSGTYPE_TIMER, _T(""), DuiSig_vn,(DUI_PMSG)&OnTimer },          \
 
@@ -240,6 +240,7 @@ protected:                                                                \
 #define  DUI_CTR_BUTTON                          (_T("Button"))
 #define  DUI_CTR_OPTION                          (_T("Option"))
 #define  DUI_CTR_SLIDER                          (_T("Slider"))
+#define  DUI_CTR_LISTEX                          (_T("ListEx"))
 
 #define  DUI_CTR_CONTROL                         (_T("Control"))
 #define  DUI_CTR_ACTIVEX                         (_T("ActiveX"))
@@ -279,7 +280,14 @@ protected:                                                                \
 #define  DUI_CTR_HORIZONTALLAYOUT                (_T("HorizontalLayout"))
 #define  DUI_CTR_LISTLABELELEMENT                (_T("ListLabelElement"))
 
+//+reyzal
+#define  DUI_CTR_LISTEXTEXTELEMENT				 (_T("ListExTextElement"))
+
 #define  DUI_CTR_LISTCONTAINERELEMENT            (_T("ListContainerElement"))
+
+//+reyzal
+#define  DUI_CTR_LISTCONTAINERHEADERITEM         (_T("ListContainerHeaderItem"))
+
 
 ///
 //////////////END控件名称宏定义//////////////////////////////////////////////////

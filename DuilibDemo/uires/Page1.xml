@@ -15,8 +15,8 @@
         <Text text="测试多行多行多行多行文本" width="80"/>
     </HorizontalLayout>
     <HorizontalLayout height="20" padding="0,10,0,0">
-        <CheckBox align="left" disabledimage="file='checkbox.png' dest='0,0,19,19' source='57,0,76,19'" hotimage="file='checkbox.png' dest='0,0,19,19' source='19,0,38,19'" name="chk_test_check1" normalimage="file='checkbox.png' dest='0,0,19,19' source='0,0,19,19'" selectedimage="file='checkbox.png' dest='0,0,19,19' source='95,0,114,19'" text="测试选择1" textpadding="19,0,0,0" width="80"/>
         <CheckBox align="left" disabledimage="file='checkbox.png' dest='0,0,19,19' source='57,0,76,19'" hotimage="file='checkbox.png' dest='0,0,19,19' source='19,0,38,19'" name="chk_test_check2" normalimage="file='checkbox.png' dest='0,0,19,19' source='0,0,19,19'" selectedimage="file='checkbox.png' dest='0,0,19,19' source='95,0,114,19'" text="测试选择2" textpadding="19,0,0,0" width="80"/>
+        <CheckBox align="left" disabledimage="file='checkbox.png' dest='0,0,19,19' source='57,0,76,19'" hotimage="file='checkbox.png' dest='0,0,19,19' source='19,0,38,19'" name="chk_test_check1" normalimage="file='checkbox.png' dest='0,0,19,19' source='0,0,19,19'" selectedimage="file='checkbox.png' dest='0,0,19,19' source='95,0,114,19'" text="测试选择1" textpadding="19,0,0,0" width="80"/>
         <CheckBox align="left" disabledimage="file='checkbox.png' dest='0,0,19,19' source='57,0,76,19'" hotimage="file='checkbox.png' dest='0,0,19,19' source='19,0,38,19'" name="chk_test_check3" normalimage="file='checkbox.png' dest='0,0,19,19' source='0,0,19,19'" selectedimage="file='checkbox.png' dest='0,0,19,19' source='95,0,114,19'" text="测试选择3" textpadding="19,0,0,0" width="80"/>
         <CheckBox align="left" disabledimage="file='checkbox.png' dest='0,0,19,19' source='57,0,76,19'" hotimage="file='checkbox.png' dest='0,0,19,19' source='19,0,38,19'" name="chk_test_check4" normalimage="file='checkbox.png' dest='0,0,19,19' source='0,0,19,19'" selectedimage="file='checkbox.png' dest='0,0,19,19' source='95,0,114,19'" text="测试选择4" textpadding="19,0,0,0" width="80"/>
         <CheckBox align="left" disabledimage="file='checkbox.png' dest='0,0,19,19' source='57,0,76,19'" hotimage="file='checkbox.png' dest='0,0,19,19' source='19,0,38,19'" name="chk_test_check5" normalimage="file='checkbox.png' dest='0,0,19,19' source='0,0,19,19'" selectedimage="file='checkbox.png' dest='0,0,19,19' source='95,0,114,19'" text="测试选择5" textpadding="19,0,0,0" width="80"/>
@@ -50,11 +50,5 @@
     <HorizontalLayout height="28" padding="0,10,0,0">
         <Button name="btn_window_normal" text="普通窗口" width="80"/>
         <Button name="btn_window_domodal" text="模态窗口" width="80"/>
-    </HorizontalLayout>
-    <HorizontalLayout height="24" padding="0,10,0,0">
-        <DateTime showupdown="true" padding="6,0,0,0" customformat="yyyy-MM-dd HH:mm:ss" bkimage="Edit_110x26.png" width="150" align="left" textpadding="2,0,0,0"/>
-        <DateTime showupdown="true" padding="6,0,0,0" customformat="yyyy-MM-dd" bkimage="Edit_110x26.png" width="90" align="left" textpadding="2,0,0,0"/>
-        <DateTime showupdown="true" padding="6,0,0,0" customformat="HH:mm:ss" bkimage="Edit_110x26.png" width="70" align="left" textpadding="2,0,0,0"/>
-        <DateTime padding="6,0,0,0" customformat="yyyy-MM-dd HH:mm:ss" bkimage="Edit_110x26.png" width="160" align="left" textpadding="2,0,0,0"/>
     </HorizontalLayout>
 </VerticalLayout>
