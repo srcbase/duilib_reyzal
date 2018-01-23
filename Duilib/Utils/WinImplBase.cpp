@@ -10,9 +10,9 @@ DUI_END_MESSAGE_MAP()
 
 
 void WindowImplBase::OnFinalMessage(HWND hWnd) {
-    m_PaintManager.RemovePreMessageFilter(this);
-    m_PaintManager.RemoveNotifier(this);
-    m_PaintManager.ReapObjects(m_PaintManager.GetRoot());
+    m_pm.RemovePreMessageFilter(this);
+    m_pm.RemoveNotifier(this);
+    m_pm.ReapObjects(m_pm.GetRoot());
 }
 
 LRESULT WindowImplBase::ResponseDefaultKeyEvent(WPARAM wParam) {
@@ -116,7 +116,7 @@ LRESULT WindowImplBase::OnNcHitTest(UINT uMsg, WPARAM wParam, LPARAM lParam, BOO
     ::GetClientRect(*this, &rcClient);
 
     if (!::IsZoomed(*this)) {
-        RECT rcSizeBox = m_PaintManager.GetSizeBox();
+        RECT rcSizeBox = m_pm.GetSizeBox();
         if (pt.y < rcClient.top + rcSizeBox.top) {
             if (pt.x < rcClient.left + rcSizeBox.left) return HTTOPLEFT;
             if (pt.x > rcClient.right - rcSizeBox.right) return HTTOPRIGHT;
@@ -131,10 +131,10 @@ LRESULT WindowImplBase::OnNcHitTest(UINT uMsg, WPARAM wParam, LPARAM lParam, BOO
         if (pt.x > rcClient.right - rcSizeBox.right) return HTRIGHT;
     }
 
-    RECT rcCaption = m_PaintManager.GetCaptionRect();
+    RECT rcCaption = m_pm.GetCaptionRect();
     if (pt.x >= rcClient.left + rcCaption.left && pt.x < rcClient.right - rcCaption.right \
             && pt.y >= rcCaption.top && pt.y < rcCaption.bottom) {
-        CControlUI* pControl = static_cast<CControlUI*>(m_PaintManager.FindControl(pt));
+        CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(pt));
         if (pControl && _tcsicmp(pControl->GetClass(), DUI_CTR_BUTTON) != 0 &&
                 _tcsicmp(pControl->GetClass(), DUI_CTR_OPTION) != 0 &&
                 _tcsicmp(pControl->GetClass(), DUI_CTR_TEXT) != 0)
@@ -161,8 +161,8 @@ LRESULT WindowImplBase::OnGetMinMaxInfo(UINT uMsg, WPARAM wParam, LPARAM lParam,
     lpMMI->ptMaxTrackSize.x = rcWork.GetWidth();
     lpMMI->ptMaxTrackSize.y = rcWork.GetHeight();
 
-    lpMMI->ptMinTrackSize.x = m_PaintManager.GetMinInfo().cx;
-    lpMMI->ptMinTrackSize.y = m_PaintManager.GetMinInfo().cy;
+    lpMMI->ptMinTrackSize.x = m_pm.GetMinInfo().cx;
+    lpMMI->ptMinTrackSize.y = m_pm.GetMinInfo().cy;
 
     bHandled = FALSE;
     return 0;
@@ -180,7 +180,7 @@ LRESULT WindowImplBase::OnMouseHover(UINT uMsg, WPARAM wParam, LPARAM lParam, BO
 #endif
 
 LRESULT WindowImplBase::OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
-    SIZE szRoundCorner = m_PaintManager.GetRoundCorner();
+    SIZE szRoundCorner = m_pm.GetRoundCorner();
 #if defined(WIN32) && !defined(UNDER_CE)
     if (!::IsIconic(*this) && (szRoundCorner.cx != 0 || szRoundCorner.cy != 0)) {
         CDuiRect rcWnd;
@@ -212,8 +212,8 @@ LRESULT WindowImplBase::OnSysCommand(UINT uMsg, WPARAM wParam, LPARAM lParam, BO
     BOOL bZoomed = ::IsZoomed(*this);
     LRESULT lRes = CWindowWnd::HandleMessage(uMsg, wParam, lParam);
     if (::IsZoomed(*this) != bZoomed) {
-        CControlUI* pbtnMax = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("btn_max")));         // max button
-        CControlUI* pbtnRestore = static_cast<CControlUI*>(m_PaintManager.FindControl(_T("btn_restore"))); // restore button
+        CControlUI* pbtnMax = static_cast<CControlUI*>(m_pm.FindControl(_T("btn_max")));         // max button
+        CControlUI* pbtnRestore = static_cast<CControlUI*>(m_pm.FindControl(_T("btn_restore"))); // restore button
 
         // toggle status of max and restore button
         if (pbtnMax && pbtnRestore) {
@@ -236,34 +236,34 @@ LRESULT WindowImplBase::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
     ::SetWindowPos(*this, NULL, rcClient.left, rcClient.top, rcClient.right - rcClient.left, \
                    rcClient.bottom - rcClient.top, SWP_FRAMECHANGED);
 
-    m_PaintManager.Init(m_hWnd);
-    m_PaintManager.AddPreMessageFilter(this);
+    m_pm.Init(m_hWnd);
+    m_pm.AddPreMessageFilter(this);
 
     CDialogBuilder builder;
-    CDuiString strResourcePath = m_PaintManager.GetResourcePath();
+    CDuiString strResourcePath = m_pm.GetResourcePath();
     if (strResourcePath.IsEmpty()) {
-        strResourcePath = m_PaintManager.GetInstancePath();
+        strResourcePath = m_pm.GetInstancePath();
         strResourcePath += GetSkinFolder().GetData();
     }
-    m_PaintManager.SetResourcePath(strResourcePath.GetData());
+    m_pm.SetResourcePath(strResourcePath.GetData());
 
     switch (GetResourceType()) {
     case UILIB_ZIP:
-        m_PaintManager.SetResourceZip(GetZIPFileName().GetData(), true);
+        m_pm.SetResourceZip(GetZIPFileName().GetData(), true);
         break;
     case UILIB_ZIPRESOURCE: {
-        HRSRC hResource = ::FindResource(m_PaintManager.GetResourceDll(), GetResourceID(), _T("ZIPRES"));
+        HRSRC hResource = ::FindResource(m_pm.GetResourceDll(), GetResourceID(), _T("ZIPRES"));
         if (hResource == NULL)
             return 0L;
         DWORD dwSize = 0;
-        HGLOBAL hGlobal = ::LoadResource(m_PaintManager.GetResourceDll(), hResource);
+        HGLOBAL hGlobal = ::LoadResource(m_pm.GetResourceDll(), hResource);
         if (hGlobal == NULL) {
 #if defined(WIN32) && !defined(UNDER_CE)
             ::FreeResource(hResource);
 #endif
             return 0L;
         }
-        dwSize = ::SizeofResource(m_PaintManager.GetResourceDll(), hResource);
+        dwSize = ::SizeofResource(m_pm.GetResourceDll(), hResource);
         if (dwSize == 0)
             return 0L;
         m_lpResourceZIPBuffer = new BYTE[dwSize];
@@ -273,7 +273,7 @@ LRESULT WindowImplBase::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 #if defined(WIN32) && !defined(UNDER_CE)
         ::FreeResource(hResource);
 #endif
-        m_PaintManager.SetResourceZip(m_lpResourceZIPBuffer, dwSize);
+        m_pm.SetResourceZip(m_lpResourceZIPBuffer, dwSize);
     }
     break;
     }
@@ -281,17 +281,17 @@ LRESULT WindowImplBase::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
     CControlUI* pRoot = NULL;
     if (GetResourceType() == UILIB_RESOURCE) {
         STRINGorID xml(_ttoi(GetSkinFile().GetData()));
-        pRoot = builder.Create(xml, _T("xml"), this, &m_PaintManager);
+        pRoot = builder.Create(xml, _T("xml"), this, &m_pm);
     } else
-        pRoot = builder.Create(GetSkinFile().GetData(), (UINT)0, this, &m_PaintManager);
+        pRoot = builder.Create(GetSkinFile().GetData(), (UINT)0, this, &m_pm);
     ASSERT(pRoot);
     if (pRoot == NULL) {
         MessageBox(NULL, _T("加载资源文件失败"), _T("Duilib"), MB_OK | MB_ICONERROR);
         ExitProcess(1);
         return 0;
     }
-    m_PaintManager.AttachDialog(pRoot);
-    m_PaintManager.AddNotifier(this);
+    m_pm.AttachDialog(pRoot);
+    m_pm.AddNotifier(this);
 
     InitWindow();
     return 0;
@@ -399,7 +399,7 @@ LRESULT WindowImplBase::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
     lRes = HandleCustomMessage(uMsg, wParam, lParam, bHandled);
     if (bHandled) return lRes;
 
-    if (m_PaintManager.MessageHandler(uMsg, wParam, lParam, lRes))
+    if (m_pm.MessageHandler(uMsg, wParam, lParam, lRes))
         return lRes;
     return CWindowWnd::HandleMessage(uMsg, wParam, lParam);
 }

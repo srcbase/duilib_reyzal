@@ -88,7 +88,7 @@ protected:
     virtual LRESULT ResponseDefaultKeyEvent(WPARAM wParam);
 
     static LPBYTE m_lpResourceZIPBuffer;
-    CPaintManagerUI m_PaintManager;
+    CPaintManagerUI m_pm;
 
 public:
     virtual UINT GetClassStyle() const;

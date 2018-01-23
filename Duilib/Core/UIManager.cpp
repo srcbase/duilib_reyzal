@@ -2442,7 +2442,7 @@ const TImageInfo* CPaintManagerUI::AddImage(LPCTSTR bitmap, LPCTSTR type, DWORD 
     if( bitmap == NULL || bitmap[0] == _T('\0') ) return NULL;
 
     TImageInfo* data = NULL;
-    if( type != NULL ) {
+    if( type != NULL && lstrlen(type) > 0) {
         if( isdigit(*bitmap) ) {
             LPTSTR pstr = NULL;
             int iIndex = _tcstol(bitmap, &pstr, 10);

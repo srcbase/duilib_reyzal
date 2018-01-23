@@ -4,7 +4,7 @@
 //
 
 // Next default values for new objects
-// 
+//
 #define IDI_ICON                        114
 #define IDI_SMALL                       115
 #define IDR_ZIPRES1                     130

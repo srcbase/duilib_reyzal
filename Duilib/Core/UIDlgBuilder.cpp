@@ -267,7 +267,8 @@ CControlUI* CDialogBuilder::_Parse(CMarkupNode* pRoot, CControlUI* pParent, CPai
                 else if( _tcsicmp(pstrClass, DUI_CTR_TREE) == 0 )             pControl = new CTreeViewUI;
                 else if( _tcsicmp(pstrClass, DUI_CTR_HBOX) == 0 )             pControl = new CHorizontalLayoutUI;
                 else if (_tcsicmp(pstrClass, DUI_CTR_VBOX) == 0)             pControl = new CVerticalLayoutUI;
-                break;
+				else if (_tcsicmp(pstrClass, DUI_CTR_MENU) == 0)             pControl = new CMenuUI;
+				break;
             case 5:
                 if( _tcsicmp(pstrClass, DUI_CTR_COMBO) == 0 )                 pControl = new CComboUI;
                 else if( _tcsicmp(pstrClass, DUI_CTR_LABEL) == 0 )            pControl = new CLabelUI;

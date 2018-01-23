@@ -171,6 +171,9 @@
     <ClInclude Include="Control\UIListEx.h">
       <Filter>头文件\Control</Filter>
     </ClInclude>
+    <ClInclude Include="Control\UIMenu.h">
+      <Filter>头文件\Control</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -291,6 +294,9 @@
       <Filter>源文件\Control</Filter>
     </ClCompile>
     <ClCompile Include="Control\UIListEx.cpp">
+      <Filter>源文件\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="Control\UIMenu.cpp">
       <Filter>源文件\Control</Filter>
     </ClCompile>
   </ItemGroup>
